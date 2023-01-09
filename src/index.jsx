@@ -11,6 +11,7 @@ import Error from './components/Error'
 // import { Provider } from 'react-redux';
 // import store from './utils/store';
 import reportWebVitals from "./reportWebVitals";
+import GlobalStyle from './utils/style/GlobalStyle'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -18,6 +19,7 @@ root.render(
   <React.StrictMode>
     <Router>
       {/* <Provider store={store}> */}
+      <GlobalStyle />
         <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
