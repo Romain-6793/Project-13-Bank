@@ -17,15 +17,6 @@ const StyledGlobalStyle = createGlobalStyle`
         min-height: 100vh;
     }
 
-    .main {
-        flex: 1;
-    }
-      
-    .bg-dark {
-        background-color: #12002b;
-    }
-
-
     a {
       text-decoration: none;
     }

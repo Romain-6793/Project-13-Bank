@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import background from '../../assets/bank-tree.jpeg'
 import colors from '../../utils/style/colors'
+import background from '../../assets/bank-tree.jpeg'
 import chaticon from '../../assets/icon-chat.png'
 import moneyicon from '../../assets/icon-money.png'
 import securityicon from '../../assets/icon-security.png'
@@ -73,7 +73,7 @@ const FeatureIcon = styled.img`
 `
 
 const FeatureTitle = styled.h3`
-color: ${colors.dark};
+color: #222;
 font-size: 1.25rem;
 font-weight: bold;
 margin-bottom: 0.5rem;
