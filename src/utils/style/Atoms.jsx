@@ -7,7 +7,7 @@ export const StyledLink = styled(Link)`
 margin-right: 0.5rem;
 text-decoration: none;
 font-weight: bold;
-font-size: 22px;
+font-size: 18px;
 color: ${colors.secondary}
 &:hover {
     text-decoration: underline;
