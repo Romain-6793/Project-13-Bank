@@ -12,7 +12,7 @@ padding-top: 1px;
 display: block;
 height: 600px;
 `
-//I don't know why but I had to put a padding-top... weird...
+//I don't know why but I had to put a padding-top and a height... weird...
 
 const SignInContent = styled.section`
 box-sizing: border-box;
