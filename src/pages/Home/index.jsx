@@ -4,6 +4,7 @@ import background from '../../assets/bank-tree.jpeg'
 import chaticon from '../../assets/icon-chat.png'
 import moneyicon from '../../assets/icon-money.png'
 import securityicon from '../../assets/icon-security.png'
+import { useSelector } from 'react-redux'
 
 const Hero = styled.div`
   background-image: url(${background});
@@ -80,6 +81,11 @@ margin-bottom: 0.5rem;
 `
 
 function Home() {
+
+const auth = useSelector((state) => state.auth)
+
+console.log(auth)
+
     return (
         <main>
         <Hero>

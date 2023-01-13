@@ -7,9 +7,8 @@ import User from './pages/User'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Error from './components/Error'
-// import GlobalStyle from './utils/style/GlobalStyle'
-// import { Provider } from 'react-redux';
-// import store from './utils/store';
+import { Provider } from 'react-redux';
+import store from './utils/store';
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyle from './utils/style/GlobalStyle'
 
@@ -18,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
-      {/* <Provider store={store}> */}
+      <Provider store={store}>
       <GlobalStyle />
         <Header />
         <Routes>
@@ -28,7 +27,7 @@ root.render(
           <Route path="*" element={<Error />} />
         </Routes>
         <Footer />
-      {/* </Provider> */}
+      </Provider>
     </Router>
   </React.StrictMode>,
 )
