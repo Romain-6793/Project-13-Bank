@@ -12,6 +12,8 @@ const initialState = {
     password: "",
     email: "",
     _id: "",
+    registerStatus: "",
+    registerError: "",
     loginStatus: "",
     loginError: "",
     userLoaded: false,
@@ -26,7 +28,7 @@ const initialState = {
  * @returns token.data i.e all the new values posted, token.data is added to our action.payload
  */
 
-export const loginUser = createAsyncThunk(
+export const RegisterUser = createAsyncThunk(
     "auth/loginUser",
     async (values, { rejectWithValue }) => {
         try {
@@ -55,11 +57,11 @@ const authSlice = createSlice({
     extrareducers: {
         login: {
             reducer: (draft, action) => {
-                if (draft.loginStatus === 'pending') {
-                    draft.loginStatus = 'pending'
+                if (RegisterUser === 'pending') {
+                    draft.registerStatus = 'pending'
                     return
                 }
-                if (draft.loginStatus === 'resolved') {
+                if (RegisterUser === 'resolved') {
                     if (action.payload) {
 
                         const user = jwtDecode(action.payload)
@@ -68,15 +70,15 @@ const authSlice = createSlice({
                         draft.name = user.name
                         draft.email = user.email
                         draft._id = user._id
-                        draft.loginStatus = 'resolved'
+                        draft.registerStatus = 'resolved'
                         return
                     } else {
                         return
                     }
                 }
-                if (draft.loginStatus === 'rejected') {
-                    draft.loginStatus = 'rejected'
-                    draft.loginError = action.payload
+                if (RegisterUser === 'rejected') {
+                    draft.registerStatus = 'rejected'
+                    draft.registerError = action.payload
                     return
 
                     //loginError = action.payload because of rejectWithValue

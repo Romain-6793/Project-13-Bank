@@ -89,6 +89,7 @@ function SignIn() {
             </form>
             </SignInContent>
         </Main>
+        // Pour le StyledInput du username, mettre email en type ?
     )
 }
 
