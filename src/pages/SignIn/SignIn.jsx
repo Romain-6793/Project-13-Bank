@@ -2,7 +2,12 @@
 import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 import UserCircle from '../../assets/user-circle.svg'
-import {Link} from 'react-router-dom'
+import {useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { registerUser } from '../../slices/authSlice'
+import { useNavigate } from 'react-router-dom'
+
+
 
 
 const Main = styled.main`
@@ -52,7 +57,7 @@ const InputRememberLabel = styled.label`
 margin-left: 0.25rem;
 `
 
-const SignInButton = styled(Link)`
+const SignInButton = styled.button`
   display: block;
   width: 100%;
   padding: 8px;
@@ -66,26 +71,61 @@ const SignInButton = styled(Link)`
 `
 
 function SignIn() {
+
+  const auth = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  let navigate = useNavigate()
+
+  console.log(auth)
+
+  const [user, setUser] = useState({
+    email : "",
+    password : "",
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // console.log(auth.registerStatus)
+
+    dispatch(registerUser(user))
+    console.log(auth)
+
+    if (auth.registerStatus === "resolved") {
+      navigate("/user")
+    }
+
+    
+    // navigate("/user")
+
+  }
+
+  console.log("user :", user)
+
+
     return (
         <Main>
             <SignInContent>
             <SignInLogo src={UserCircle} />
             <h1>Sign In</h1>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <InputWrapper>
                     <InputWrapperLabel htmlFor="username">Username</InputWrapperLabel>
-                    <StyledInput type="text" id="username" />
+                    {/* <StyledInput type="text" id="username" /> */}
+                    <StyledInput type="email" id="username" onChange={(e) => setUser({...user, email:e.target.value})} />
                 </InputWrapper>
                 <InputWrapper>
                     <InputWrapperLabel htmlFor="password">Password</InputWrapperLabel>
-                    <StyledInput type="password" id="password" />
+                    <StyledInput type="password" id="password" onChange={(e) => setUser({...user, password:e.target.value})} />
                 </InputWrapper>
                 <InputRemember>
                     <input type="checkbox" id="remember-me" />
                     <InputRememberLabel htmlFor="remember-me">Remember me
                     </InputRememberLabel>
                 </InputRemember>
-                <SignInButton to="/user">Sign in</SignInButton>
+                <SignInButton to="/user" type="submit">Sign in</SignInButton>
+                {auth.registerStatus === "rejected" ? <p>{auth.registerError}</p> : null}
             </form>
             </SignInContent>
         </Main>
