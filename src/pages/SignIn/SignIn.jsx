@@ -4,7 +4,7 @@ import colors from '../../utils/style/colors'
 import UserCircle from '../../assets/user-circle.svg'
 import {useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { registerUser } from '../../slices/authSlice'
+import { loginUser } from '../../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 
@@ -89,10 +89,10 @@ function SignIn() {
     
     // console.log(auth.registerStatus)
 
-    dispatch(registerUser(user))
+    dispatch(loginUser(user))
     console.log(auth)
 
-    if (auth.registerStatus === "resolved") {
+    if (auth.loginStatus === "resolved") {
       navigate("/user")
     }
 
@@ -125,7 +125,7 @@ function SignIn() {
                     </InputRememberLabel>
                 </InputRemember>
                 <SignInButton to="/user" type="submit">Sign in</SignInButton>
-                {auth.registerStatus === "rejected" ? <p>{auth.registerError}</p> : null}
+                {auth.loginStatus === "rejected" ? <p>{auth.loginError}</p> : null}
             </form>
             </SignInContent>
         </Main>

@@ -12,8 +12,8 @@ const initialState = {
     password: "",
     email: "",
     _id: "",
-    registerStatus: "",
-    registerError: "",
+    // registerStatus: "",
+    // registerError: "",
     loginStatus: "",
     loginError: "",
     userLoaded: false,
@@ -30,8 +30,8 @@ const initialState = {
  * @returns token.data i.e all the new values posted, token.data is added to our action.payload
  */
 
-export const registerUser = createAsyncThunk(
-    "auth/registerUser",
+export const loginUser = createAsyncThunk(
+    "auth/loginUser",
     async (user, { rejectWithValue }) => {
         try {
             const token = await axios.post(`${url}/user/login`, {
@@ -43,6 +43,7 @@ export const registerUser = createAsyncThunk(
             // JSON.parse(JSON.stringify(token))
             localStorage.setItem("token", token.data.body.token)
             console.log(user)
+            console.log(loginUser)
             console.log(token)
             console.log(localStorage)
 
@@ -61,14 +62,14 @@ const authSlice = createSlice({
     reducers: {
     },
     extrareducers: {
-        register: {
+        login: {
             reducer: (draft, action) => {
-                if (registerUser === 'pending') {
-                    draft.registerStatus = 'pending'
-                    console.log(registerUser)
+                if (loginUser.pending) {
+                    draft.loginStatus = 'pending'
+                    console.log(loginUser)
                     return
                 }
-                if (registerUser === 'resolved') {
+                if (loginUser.resolved) {
                     if (action.payload) {
 
                         const user = jwtDecode(action.payload)
@@ -77,17 +78,17 @@ const authSlice = createSlice({
                         draft.name = user.name
                         draft.email = user.email
                         draft._id = user._id
-                        draft.registerStatus = 'resolved'
-                        console.log(registerUser)
+                        draft.loginStatus = 'resolved'
+                        console.log(loginUser)
                         return
                     } else {
                         return
                     }
                 }
-                if (registerUser === 'rejected') {
-                    draft.registerStatus = 'rejected'
-                    draft.registerError = action.payload
-                    console.log(registerUser)
+                if (loginUser.rejected) {
+                    draft.loginStatus = 'rejected'
+                    draft.loginError = action.payload
+                    console.log(loginUser)
                     return
 
                     //loginError = action.payload because of rejectWithValue
@@ -101,6 +102,11 @@ const authSlice = createSlice({
 })
 
 
+// login : {
+//     reducer: {
+
+//     }
+// }
 
 
 
@@ -108,10 +114,10 @@ const authSlice = createSlice({
 
 
 // extraReducers: (builder) => {
-//     builder.addCase(registerUser.pending, (state, action) => {
-//         return { ...state, registerStatus: "pending" };
+//     builder.addCase(loginUser.pending, (state, action) => {
+//         return { ...state, loginStatus: "pending" };
 //     });
-//     builder.addCase(registerUser.resolved, (state, action) => {
+//     builder.addCase(loginUser.resolved, (state, action) => {
 //         if (action.payload) {
 //             const user = jwtDecode(action.payload);
 //             return {
@@ -120,15 +126,15 @@ const authSlice = createSlice({
 //                 name: user.name,
 //                 email: user.email,
 //                 _id: user._id,
-//                 registerStatus: "resolved",
+//                 loginStatus: "resolved",
 //             };
 //         } else return state;
 //     });
-//     builder.addCase(registerUser.rejected, (state, action) => {
+//     builder.addCase(loginUser.rejected, (state, action) => {
 //         return {
 //             ...state,
-//             registerStatus: "rejected",
-//             registerError: action.payload,
+//             loginStatus: "rejected",
+//             loginError: action.payload,
 //         };
 //     });
 
