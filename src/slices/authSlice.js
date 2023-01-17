@@ -32,26 +32,26 @@ const initialState = {
 
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
-    async (user, { rejectWithValue }) => {
+    async (user, thunkAPI) => {
         try {
             const token = await axios.post(`${url}/user/login`, {
                 name: user.name,
                 email: user.email,
                 password: user.password,
             })
-
             // JSON.parse(JSON.stringify(token))
-            localStorage.setItem("token", token.data.body.token)
-            console.log(user)
-            console.log(loginUser)
-            console.log(token)
-            console.log(localStorage)
+            localStorage.setItem("token", token.data.body.token);
 
-            return token.data
+            // console.log(user)
+            // console.log(loginUser)
+            // console.log(token)
+            // console.log(localStorage)
+
+            return 'fulfilled'
         }
         catch (err) {
             console.log(err.response.data)
-            return rejectWithValue(err.response.data)
+            return thunkAPI.rejectWithValue(err.response.data)
         }
     }
 )
@@ -60,45 +60,18 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-    },
-    extrareducers: {
-        login: {
-            reducer: (draft, action) => {
-                if (loginUser.pending) {
-                    draft.loginStatus = 'pending'
-                    console.log(loginUser)
-                    return
-                }
-                if (loginUser.resolved) {
-                    if (action.payload) {
-
-                        const user = jwtDecode(action.payload)
-
-                        draft.token = action.payload
-                        draft.name = user.name
-                        draft.email = user.email
-                        draft._id = user._id
-                        draft.loginStatus = 'resolved'
-                        console.log(loginUser)
-                        return
-                    } else {
-                        return
-                    }
-                }
-                if (loginUser.rejected) {
-                    draft.loginStatus = 'rejected'
-                    draft.loginError = action.payload
-                    console.log(loginUser)
-                    return
-
-                    //loginError = action.payload because of rejectWithValue
-                }
-                return
-            }
+        loginStatusHandler: (state, action) => {
+            state.loginStatus = action.loginStatus
         },
-
     },
-
+    extraReducers: (builder) => {
+        // Add reducers for additional action types here, and handle loading state as needed
+        builder.addCase(loginUser.fulfilled, (state, action) => {
+            console.log(state, action)
+            // Add user to the state array
+            state.loginStatus = action.payload;
+        })
+    },
 })
 
 

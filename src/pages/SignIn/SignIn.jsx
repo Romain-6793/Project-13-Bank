@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 import UserCircle from '../../assets/user-circle.svg'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
@@ -72,11 +72,11 @@ const SignInButton = styled.button`
 
 function SignIn() {
 
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector((state) => state.auth);
+
   const dispatch = useDispatch()
   let navigate = useNavigate()
 
-  console.log(auth)
 
   const [user, setUser] = useState({
     email : "",
@@ -86,20 +86,14 @@ function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    
-    // console.log(auth.registerStatus)
-
     dispatch(loginUser(user))
-    console.log(auth)
-
-    if (auth.loginStatus === "resolved") {
-      navigate("/user")
-    }
-
-    
-    // navigate("/user")
-
   }
+
+  useEffect(() => {
+    if (auth.loginStatus === "fulfilled") {
+        navigate("/user");
+      }
+  }, [auth.loginStatus])
 
   console.log("user :", user)
 
