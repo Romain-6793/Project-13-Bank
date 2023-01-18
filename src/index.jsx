@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import SignIn from './pages/SignIn/SignIn'
 import User from './pages/User/User'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Error from './components/Error'
+import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer'
+import Error from './components/Error/Error'
 import { Provider } from 'react-redux';
 import store from './utils/store';
 import reportWebVitals from "./reportWebVitals";

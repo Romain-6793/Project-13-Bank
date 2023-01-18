@@ -38,16 +38,21 @@ export const loginUser = createAsyncThunk(
                 name: user.name,
                 email: user.email,
                 password: user.password,
+                // _id: user._id,
+                // loginStatus: "fulfilled"
             })
             // JSON.parse(JSON.stringify(token))
+            console.log(token)
             localStorage.setItem("token", token.data.body.token);
 
             // console.log(user)
             // console.log(loginUser)
-            // console.log(token)
+
             // console.log(localStorage)
 
-            return 'fulfilled'
+            // return 'fulfilled'
+            return token
+
         }
         catch (err) {
             console.log(err.response.data)
@@ -65,12 +70,42 @@ const authSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        builder.addCase(loginUser.pending, (state, action) => {
+            console.log(state, action)
+            return { ...state, loginStatus: "pending" };
+        });
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(loginUser.fulfilled, (state, action) => {
-            console.log(state, action)
-            // Add user to the state array
-            state.loginStatus = action.payload;
+            // console.log(state, action)
+            // console.log(action.payload)
+            // // Add user to the state object
+            // state.loginStatus = action.payload.loginStatus
+            // state._id = action.payload._id
+            // //Changer la ligne ci-dessus plus tard (action.payload est la valeur de retour de mon thunk)
+            if (action.payload) {
+                try {
+                    const user = jwtDecode(action.payload, { headers: {} });
+                    return {
+                        ...state,
+                        token: action.payload,
+                        name: user.name,
+                        email: user.email,
+                        _id: user._id,
+                        loginStatus: "fulfilled",
+                    };
+                } catch (error) {
+                    return state
+                }
+            } else return state;
         })
+        builder.addCase(loginUser.rejected, (state, action) => {
+            console.log(state, action)
+            return {
+                ...state,
+                loginStatus: "rejected",
+                loginError: action.payload,
+            };
+        });
     },
 })
 

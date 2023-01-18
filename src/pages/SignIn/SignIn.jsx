@@ -73,6 +73,8 @@ const SignInButton = styled.button`
 function SignIn() {
 
   const auth = useSelector((state) => state.auth);
+  const token = localStorage.getItem("token");
+  console.log(token)
 
   const dispatch = useDispatch()
   let navigate = useNavigate()
@@ -89,13 +91,22 @@ function SignIn() {
     dispatch(loginUser(user))
   }
 
+  //This useEffect is separated from handleSubmit because it should run only when auth.loginStatus
+  // changes and it should navigate only if the status is fulfilled. 
+
   useEffect(() => {
-    if (auth.loginStatus === "fulfilled") {
+    // if (auth.loginStatus === "fulfilled") {
+    //     navigate("/user");
+    //   }
+
+    if (token) {
         navigate("/user");
-      }
-  }, [auth.loginStatus])
+    }
+ 
+  }, [token, navigate])
 
   console.log("user :", user)
+  console.log(auth.loginError)
 
 
     return (
@@ -119,7 +130,7 @@ function SignIn() {
                     </InputRememberLabel>
                 </InputRemember>
                 <SignInButton to="/user" type="submit">Sign in</SignInButton>
-                {auth.loginStatus === "rejected" ? <p>{auth.loginError}</p> : null}
+                {auth.loginStatus === "rejected" ? <p>{auth.loginError.message}</p> : null}
             </form>
             </SignInContent>
         </Main>
