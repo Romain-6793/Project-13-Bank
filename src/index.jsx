@@ -1,32 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Home from './pages/Home/Home'
-import SignIn from './pages/SignIn/SignIn'
-import User from './pages/User/User'
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
-import Error from './components/Error/Error'
+import reportWebVitals from "./reportWebVitals";
+import App from './App'
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './utils/store';
-import reportWebVitals from "./reportWebVitals";
-import GlobalStyle from './utils/style/GlobalStyle'
+import { loadUser } from './slices/authSlice'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+
+
+
+
+// function storageHandler() {
+//   localStorage.removeItem("token")
+// }
+
+store.dispatch(loadUser(null))
+
+// "null" because it doesn't expect anything as a parameter. I think this is because it should work 
+// whether there's a token or not.
+
 root.render(
-  <React.StrictMode>
+  <React.StrictMode 
+  // onBeforeUnload={storageHandler()}
+  >
     <Router>
-      <Provider store={store}>
-      <GlobalStyle />
-        <Header />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/signIn" element={<SignIn />} />
-          <Route path="/user" element={<User />} />
-          <Route path="*" element={<Error />} />
-        </Routes>
-        <Footer />
+      <Provider store={store}> 
+        <App></App>
       </Provider>
     </Router>
   </React.StrictMode>,

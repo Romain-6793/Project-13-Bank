@@ -3,24 +3,19 @@ import axios from 'axios'
 import { url } from './api'
 import jwtDecode from 'jwt-decode'
 
-
 const initialState = {
     token: localStorage.getItem("token"),
-    name: "",
     firstName: "",
     lastName: "",
     password: "",
     email: "",
     _id: "",
-    // registerStatus: "",
-    // registerError: "",
     loginStatus: "",
     loginError: "",
+    fetchStatus: "",
+    fetchError: "",
     userLoaded: false,
 }
-
-//pas de registerStatus ou Error pour le moment, il n'y a pas de fonctionnalité "s'inscrire"
-
 
 /**
  * We log in a user and we get back a token
@@ -34,63 +29,99 @@ export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async (user, thunkAPI) => {
         try {
-            const token = await axios.post(`${url}/user/login`, {
-                name: user.name,
+            const res = await axios.post(`${url}/user/login`, {
                 email: user.email,
                 password: user.password,
-                // _id: user._id,
-                // loginStatus: "fulfilled"
             })
-            // JSON.parse(JSON.stringify(token))
-            console.log(token)
-            localStorage.setItem("token", token.data.body.token);
 
-            // console.log(user)
-            // console.log(loginUser)
 
-            // console.log(localStorage)
-
-            // return 'fulfilled'
-            return token
+            localStorage.setItem("token", res.data.body.token);
+            return res.data.body.token;
 
         }
         catch (err) {
-            console.log(err.response.data)
             return thunkAPI.rejectWithValue(err.response.data)
         }
     }
+)
+
+export const fetchUser = createAsyncThunk(
+    "auth/fetchUser",
+    async (user, thunkAPI) => {
+        if (user._id) {
+            try {
+                const res = await axios.get(`${url}/user`)
+
+                const selectedData = res.data.body.find((foundUser) => foundUser._id === user._id)
+
+                return selectedData
+
+            }
+            catch (err) {
+                return thunkAPI.rejectWithValue(err.response.data)
+            }
+        } else {
+            return
+        }
+    }
+
 )
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        loginStatusHandler: (state, action) => {
-            state.loginStatus = action.loginStatus
+        // Here come my two reducers(actions), the first one, "loadUser", checks if there is a token
+        //  then essentially retuns the token and the id, it is used to reload the data if the token is 
+        // still here. The second one, "logOutUser" is used to log out the user i-e to return the state 
+        // to the initial state, before the token was set.
+
+        loadUser(state, action) {
+            const token = state.token;
+
+            if (token) {
+                const user = jwtDecode(token);
+                return {
+                    ...state,
+                    token,
+                    _id: user.id,
+                    loginStatus: "fulfilled",
+                    userLoaded: true,
+                };
+            } else return { ...state, userLoaded: true };
+        },
+        logoutUser(state, action) {
+            localStorage.removeItem("token");
+
+            return {
+                ...state,
+                token: "",
+                name: "",
+                password: "",
+                email: "",
+                _id: "",
+                loginStatus: "",
+                loginError: "",
+                fetchStatus: "",
+                fetchError: "",
+                userLoaded: false,
+            };
         },
     },
     extraReducers: (builder) => {
         builder.addCase(loginUser.pending, (state, action) => {
-            console.log(state, action)
             return { ...state, loginStatus: "pending" };
         });
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(loginUser.fulfilled, (state, action) => {
-            // console.log(state, action)
-            // console.log(action.payload)
-            // // Add user to the state object
-            // state.loginStatus = action.payload.loginStatus
-            // state._id = action.payload._id
-            // //Changer la ligne ci-dessus plus tard (action.payload est la valeur de retour de mon thunk)
+            // Add user to the state object
             if (action.payload) {
                 try {
-                    const user = jwtDecode(action.payload, { headers: {} });
+                    const user = jwtDecode(action.payload);
                     return {
                         ...state,
                         token: action.payload,
-                        name: user.name,
-                        email: user.email,
-                        _id: user._id,
+                        _id: user.id,
                         loginStatus: "fulfilled",
                     };
                 } catch (error) {
@@ -99,56 +130,45 @@ const authSlice = createSlice({
             } else return state;
         })
         builder.addCase(loginUser.rejected, (state, action) => {
-            console.log(state, action)
             return {
                 ...state,
                 loginStatus: "rejected",
                 loginError: action.payload,
             };
         });
+        builder.addCase(fetchUser.pending, (state, action) => {
+            return { ...state, fetchStatus: "pending" };
+        });
+        // Add reducers for additional action types here, and handle loading state as needed
+        builder.addCase(fetchUser.fulfilled, (state, action) => {
+            // Add user to the state object
+            if (action.payload) {
+                // const user = jwtDecode(action.payload);
+                const user = action.payload
+                return {
+                    ...state,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    fetchStatus: "fulfilled",
+                };
+            } else return state;
+        })
+        builder.addCase(fetchUser.rejected, (state, action) => {
+            return {
+                ...state,
+                fetchStatus: "rejected",
+                fetchError: action.payload,
+            };
+        });
     },
+
 })
 
 
-// login : {
-//     reducer: {
+// Here I import my two redurcers as actions from authslice, so I can dispatch them the way I want in
+// any component.
 
-//     }
-// }
-
-
-
-//extrareducers are for http requests
-
-
-// extraReducers: (builder) => {
-//     builder.addCase(loginUser.pending, (state, action) => {
-//         return { ...state, loginStatus: "pending" };
-//     });
-//     builder.addCase(loginUser.resolved, (state, action) => {
-//         if (action.payload) {
-//             const user = jwtDecode(action.payload);
-//             return {
-//                 ...state,
-//                 token: action.payload,
-//                 name: user.name,
-//                 email: user.email,
-//                 _id: user._id,
-//                 loginStatus: "resolved",
-//             };
-//         } else return state;
-//     });
-//     builder.addCase(loginUser.rejected, (state, action) => {
-//         return {
-//             ...state,
-//             loginStatus: "rejected",
-//             loginError: action.payload,
-//         };
-//     });
-
-
-// }
-
-// A REMETTRE PLUS TARD DANS MA SLICE SI NÉCESSAIRE
+export const { loadUser, logoutUser } = authSlice.actions;
 
 export default authSlice.reducer

@@ -7,9 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from '../../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 
-
-
-
 const Main = styled.main`
 flex: 1;
 background-color: ${colors.dark};
@@ -72,9 +69,7 @@ const SignInButton = styled.button`
 
 function SignIn() {
 
-  const auth = useSelector((state) => state.auth);
-  const token = localStorage.getItem("token");
-  console.log(token)
+  const authUser = useSelector((state) => state.auth);
 
   const dispatch = useDispatch()
   let navigate = useNavigate()
@@ -95,19 +90,11 @@ function SignIn() {
   // changes and it should navigate only if the status is fulfilled. 
 
   useEffect(() => {
-    // if (auth.loginStatus === "fulfilled") {
-    //     navigate("/user");
-    //   }
-
-    if (token) {
+    if (authUser._id) {
         navigate("/user");
-    }
+      }
  
-  }, [token, navigate])
-
-  console.log("user :", user)
-  console.log(auth.loginError)
-
+  }, [authUser._id, navigate])
 
     return (
         <Main>
@@ -117,7 +104,6 @@ function SignIn() {
             <form onSubmit={handleSubmit}>
                 <InputWrapper>
                     <InputWrapperLabel htmlFor="username">Username</InputWrapperLabel>
-                    {/* <StyledInput type="text" id="username" /> */}
                     <StyledInput type="email" id="username" onChange={(e) => setUser({...user, email:e.target.value})} />
                 </InputWrapper>
                 <InputWrapper>
@@ -130,11 +116,10 @@ function SignIn() {
                     </InputRememberLabel>
                 </InputRemember>
                 <SignInButton to="/user" type="submit">Sign in</SignInButton>
-                {auth.loginStatus === "rejected" ? <p>{auth.loginError.message}</p> : null}
+                {authUser.loginStatus === "rejected" ? <p>{authUser.loginError.message}</p> : null}
             </form>
             </SignInContent>
         </Main>
-        // Pour le StyledInput du username, mettre email en type ?
     )
 }
 

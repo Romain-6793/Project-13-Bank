@@ -1,6 +1,9 @@
 
 import styled from "styled-components"
 import colors from '../../utils/style/colors'
+import { useDispatch, useSelector } from "react-redux"
+import { fetchUser } from "../../slices/authSlice"
+import { useEffect } from "react"
 
 const Main = styled.main`
 flex: 1;
@@ -90,11 +93,23 @@ color: #fff;
 }
 `
 
-function User() {
+function User() {  
+
+    const authUser = useSelector((state) => state.auth);
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchUser(authUser))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch])
+    
+    
+
     return (
         <Main>
             <Welcome>
-            <h1>Welcome back<br />Tony Jarvis!</h1>
+            <h1>Welcome back<br />{authUser.firstName} {authUser.lastName}!</h1>
             <EditButton>Edit Name</EditButton>
             </Welcome>
             <Account>

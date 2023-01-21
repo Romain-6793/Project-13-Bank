@@ -1,11 +1,13 @@
 import {Link} from 'react-router-dom'
-import { useEffect } from 'react'
 import styled from 'styled-components'
 import ArgentBankLogo from '../../assets/argentBankLogo.png'
 import UserCircle from '../../assets/user-circle.svg'
 import LogOut from '../../assets/log-out.svg'
 import colors from '../../utils/style/colors'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutUser } from '../../slices/authSlice'
+
+
 
 const NavContainer = styled.nav`
 display: flex;
@@ -47,19 +49,9 @@ const SignInLogo = styled.img`
 
 function Header() {
 
-    const auth = useSelector((state) => state.auth);
-    const token = localStorage.getItem("token");
-
-    useEffect(() => {
-        // if (auth.loginStatus === "fulfilled") {
-        //     console.log(auth)
-        //   }
-
-        if (token) {
-            console.log(auth)
-        }
-     
-      }, [token, auth])
+    const authUser = useSelector((state) => state.auth);
+   
+    const dispatch = useDispatch();
 
     return (
         <NavContainer>
@@ -68,20 +60,19 @@ function Header() {
                 <HomeLogo src={ArgentBankLogo} />
                 </HomeLogoContainer>
             </Link>
-            {/* { auth._id !== "" ?
+            { authUser._id ?
+                <StyledLink to="/" onClick={() => {
+                dispatch(logoutUser(null))
+                }}>
+                    <SignInLogo src={LogOut} />
+                        Sign Out
+                </StyledLink> 
+                 : 
                 <StyledLink to="/signIn">
                     <SignInLogo src={UserCircle} />
-                    Sign In
-                </StyledLink> : 
-                <StyledLink to="/">
-                    <SignInLogo src={LogOut} />
-                    Sign Out
-                </StyledLink> 
-            } */}
-            <StyledLink to="/signIn">
-                    <SignInLogo src={UserCircle} />
-                    Sign In
-            </StyledLink>
+                        Sign In
+                </StyledLink>
+            }
         </NavContainer>
         
     )
