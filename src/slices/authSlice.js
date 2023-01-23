@@ -14,6 +14,7 @@ const initialState = {
     loginError: "",
     fetchStatus: "",
     fetchError: "",
+    remembered: false,
     userLoaded: false,
 }
 
@@ -25,6 +26,7 @@ const initialState = {
  * @returns token.data i.e all the new values posted, token.data is added to our action.payload
  */
 
+
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async (user, thunkAPI) => {
@@ -33,7 +35,6 @@ export const loginUser = createAsyncThunk(
                 email: user.email,
                 password: user.password,
             })
-
 
             localStorage.setItem("token", res.data.body.token);
             return res.data.body.token;
@@ -64,15 +65,17 @@ export const fetchUser = createAsyncThunk(
             return
         }
     }
-
 )
+
+// export const setRemember = createAction('remember/set')
+// export const unsetRemember = createAction('remember/unset')
 
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
         // Here come my two reducers(actions), the first one, "loadUser", checks if there is a token
-        //  then essentially retuns the token and the id, it is used to reload the data if the token is 
+        //  then essentially retuns the token and the id, it is used to reload the data if the token is 
         // still here. The second one, "logOutUser" is used to log out the user i-e to return the state 
         // to the initial state, before the token was set.
 
@@ -90,6 +93,18 @@ const authSlice = createSlice({
                 };
             } else return { ...state, userLoaded: true };
         },
+        rememberUser(state, action) {
+            return {
+                ...state,
+                remembered: true,
+            }
+        },
+        dontRememberUser(state, action) {
+            return {
+                ...state,
+                remembered: false,
+            }
+        },
         logoutUser(state, action) {
             localStorage.removeItem("token");
 
@@ -104,6 +119,7 @@ const authSlice = createSlice({
                 loginError: "",
                 fetchStatus: "",
                 fetchError: "",
+                remembered: false,
                 userLoaded: false,
             };
         },
@@ -165,10 +181,9 @@ const authSlice = createSlice({
 
 })
 
-
 // Here I import my two redurcers as actions from authslice, so I can dispatch them the way I want in
 // any component.
 
-export const { loadUser, logoutUser } = authSlice.actions;
+export const { loadUser, logoutUser, rememberUser, dontRememberUser } = authSlice.actions;
 
 export default authSlice.reducer

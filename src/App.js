@@ -1,19 +1,29 @@
 import { Route, Routes } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 import Home from './pages/Home/Home'
 import SignIn from './pages/SignIn/SignIn'
 import User from './pages/User/User'
+import Error from './pages/Error/Error'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
-import Error from './components/Error/Error'
-import { useSelector } from 'react-redux';
 import GlobalStyle from './utils/style/GlobalStyle'
+import { Beforeunload } from 'react-beforeunload';
 
 function App() {
 
     const authUser = useSelector((state) => state.auth);
 
+    //     function storageHandler() {
+    //   localStorage.removeItem("token")
+    // }
+
+    const storageHandler = () => {
+        localStorage.removeItem("token")
+    }
+
     return (
 
+        // <Beforeunload onBeforeUnload={storageHandler}>
         <div>
             <GlobalStyle />
             <Header />
@@ -28,7 +38,7 @@ function App() {
             </Routes>
             <Footer />
         </div>
-
+        // </Beforeunload>
 
     )
 }
