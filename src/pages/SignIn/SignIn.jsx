@@ -17,23 +17,23 @@ height: 600px;
 
 const SignInContent = styled.section`
 box-sizing: border-box;
-  background-color: white;
-  width: 300px;
-  margin: 0 auto;
-  margin-top: 3rem;
-  padding: 2rem;
+ background-color: white;
+ width: 300px;
+ margin: 0 auto;
+ margin-top: 3rem;
+ padding: 2rem;
 `
 
 const SignInLogo = styled.img`
-  height: 16px;
-  width: 16px;
+ height: 16px;
+ width: 16px;
 `
 
 const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  margin-bottom: 1rem;
+ display: flex;
+ flex-direction: column;
+ text-align: left;
+ margin-bottom: 1rem;
 `
 
 const StyledInput = styled.input`
@@ -87,7 +87,7 @@ const [isRemembered, setIsRemembered] = useState(true)
 
 
 const handleRemember = () => {
-  if (isRemembered === true) {
+  if (isRemembered) {
     setIsRemembered(false)
     console.log("box checked")
     console.log(isRemembered)

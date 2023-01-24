@@ -17,30 +17,35 @@ function App() {
     //   localStorage.removeItem("token")
     // }
 
-    function storageHandler() {
-        if (authUser.remembered !== true) {
-            localStorage.removeItem("token")
-        }
-    }
+    // function storageHandler() {
+    //     if (authUser.remembered !== true) {
+    //         localStorage.removeItem("token")
+    //     }
+    // }
+
+    // window.addEventListener("beforeunload", (ev) => {
+    //     ev.preventDefault();
+    //     return ev.returnValue = 'Are you sure you want to close?';
+    // });
 
     return (
 
-        <Beforeunload onBeforeUnload={storageHandler()}>
-            <div>
-                <GlobalStyle />
-                <Header />
-                <Routes>
-                    <Route exact path="/" element={<Home />} />
-                    {authUser._id ?
-                        <Route path="/user" element={<User />} />
-                        : <Route path="/user" element={<Error />} />
-                    }
-                    <Route path="/signIn" element={<SignIn />} />
-                    <Route path="*" element={<Error />} />
-                </Routes>
-                <Footer />
-            </div>
-        </Beforeunload>
+        // <Beforeunload onBeforeUnload={storageHandler()}>
+        <div>
+            <GlobalStyle />
+            <Header />
+            <Routes>
+                <Route exact path="/" element={<Home />} />
+                {authUser._id ?
+                    <Route path="/user" element={<User />} />
+                    : <Route path="/user" element={<Error />} />
+                }
+                <Route path="/signIn" element={<SignIn />} />
+                <Route path="*" element={<Error />} />
+            </Routes>
+            <Footer />
+        </div>
+        // </Beforeunload>
 
     )
 }

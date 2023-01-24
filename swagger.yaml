@@ -1,0 +1,497 @@
+swagger: "2.0"
+info:
+  title: Bank Argent API transactions documentation
+  description: Contains all available API endpoints in this codebase
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/{userId}/checking:
+    get:
+      tags:
+        - User Checking Account
+      summary: Checking Account
+      description: API to get Checking Account
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Access to Checking Account granted
+          schema:
+            $ref: "#/definitions/AccountResponse"
+        "400":
+          description: No account found
+        "500":
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Checking transaction
+      summary: Checking transaction
+      description: API to create any Checking transaction
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Create any Checking transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction created successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/{userId}/checking/{transactionId}:
+    get:
+      tags:
+        - User Checking transaction
+      summary: Checking transaction
+      description: API to get any Checking transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to get
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Access to transaction granted
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: No transaction found
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Checking transaction
+      summary: Checking transaction
+      description: API to update any Checking transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to update
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update any Checking transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction updated successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Checking transaction
+      summary: Checking transaction
+      description: API to delete any Checking transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to delete
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Delete any Checking transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction deleted successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/{userId}/savings:
+    get:
+      tags:
+        - User Savings Account
+      summary: Savings Account
+      description: API to get Savings Account
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Access to Checking Account granted
+          schema:
+            $ref: "#/definitions/AccountResponse"
+        "400":
+          description: No account found
+        "500":
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Savings transaction
+      summary: Savings transaction
+      description: API to create any Savings transaction
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Create any Savings transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction created successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/{userId}/savings/{transactionId}:
+    get:
+      tags:
+        - User Savings transaction
+      summary: Savings transaction
+      description: API to get any Savings transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to get
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Access to transaction granted
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: No transaction found
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Savings transaction
+      summary: Savings transaction
+      description: API to update any Savings transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to update
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update any Savings transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction updated successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Savings transaction
+      summary: Savings transaction
+      description: API to delete any Savings transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to delete
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Delete any Savings transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction deleted successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/{userId}/card:
+    get:
+      tags:
+        - User Card Account
+      summary: Card Account
+      description: API to get Card Account
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Access to Card Account granted
+          schema:
+            $ref: "#/definitions/AccountResponse"
+        "400":
+          description: No account found
+        "500":
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Savings transaction
+      summary: Savings transaction
+      description: API to create any Card transaction
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the user to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Create any Card transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction created successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/{userId}/card/{transactionId}:
+    get:
+      tags:
+        - User Card transaction
+      summary: Card transaction
+      description: API to get any Card transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to get
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Access to transaction granted
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: No transaction found
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Card transaction
+      summary: Card transaction
+      description: API to update any Card transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to update
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Update any Card transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction updated successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Card transaction
+      summary: Card transaction
+      description: API to delete any Card transaction
+      parameters:
+        - in: path
+          name: transactionId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the transaction to delete
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Delete any Card transaction
+          required: true
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Transaction deleted successully
+          schema:
+            $ref: "#/definitions/TransactionResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  AccountResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+ TransactionResponse:
+    type: object
+    properties:
+      token:
+        type: string
+        status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+  
