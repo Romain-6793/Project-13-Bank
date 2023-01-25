@@ -8,8 +8,8 @@ import Error from './pages/Error/Error'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import GlobalStyle from './utils/style/GlobalStyle'
-import { Beforeunload } from 'react-beforeunload';
-import { rememberUser } from './slices/authSlice';
+// import { Beforeunload } from 'react-beforeunload';
+// import { rememberUser } from './slices/authSlice';
 
 function App() {
 
