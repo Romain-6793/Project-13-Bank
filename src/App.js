@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import Home from './pages/Home/Home'
@@ -8,6 +9,7 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import GlobalStyle from './utils/style/GlobalStyle'
 import { Beforeunload } from 'react-beforeunload';
+import { rememberUser } from './slices/authSlice';
 
 function App() {
 
@@ -27,6 +29,32 @@ function App() {
     //     ev.preventDefault();
     //     return ev.returnValue = 'Are you sure you want to close?';
     // });
+
+    useEffect(() => {
+        const onBeforeUnload = (ev) => {
+
+            //#############     
+            console.log(authUser);
+
+
+            // if (!authUser.remembered) {
+            //     localStorage.removeItem("token");
+            // } else {
+            //     localStorage.setItem("token");
+            // }
+
+            //#############
+
+            ev.returnValue = "Anything you wanna put here!";
+            return "Anything here as well, doesn't matter!";
+        };
+
+        window.addEventListener("beforeunload", onBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", onBeforeUnload);
+        };
+    }, []);
 
     return (
 

@@ -31,19 +31,15 @@ const initialState = {
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async (user, thunkAPI) => {
-        const state = thunkAPI.getState()
-        console.log(state)
+
         try {
             const res = await axios.post(`${url}/user/login`, {
                 email: user.email,
                 password: user.password,
             })
 
-            if (state.auth.remembered) {
-                localStorage.setItem("token", res.data.body.token);
-            } else {
-                sessionStorage.setItem("token", res.data.body.token);
-            }
+            localStorage.setItem("token", res.data.body.token);
+
 
             return res.data.body.token;
 
@@ -114,7 +110,7 @@ const authSlice = createSlice({
             }
         },
         logoutUser(state, action) {
-            Storage.removeItem("token");
+            localStorage.removeItem("token");
 
             return {
                 ...state,

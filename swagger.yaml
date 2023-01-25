@@ -9,19 +9,17 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /user/{userId}/checking:
+  account/checking:
     get:
       tags:
         - User Checking Account
       summary: Checking Account
       description: API to get Checking Account
       parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
           required: true
-          description: Numeric ID of the user to get
       produces:
         - application/json
       responses:
@@ -41,12 +39,6 @@ paths:
       summary: Checking transaction
       description: API to create any Checking transaction
       parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
-          required: true
-          description: Numeric ID of the user to get
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -68,7 +60,7 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
-  /user/{userId}/checking/{transactionId}:
+  account/checking/{transactionId}:
     get:
       tags:
         - User Checking transaction
@@ -81,6 +73,10 @@ paths:
             type: integer
           required: true
           description: Numeric ID of the transaction to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
       produces:
         - application/json
       responses:
@@ -162,19 +158,17 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
-  /user/{userId}/savings:
+  account/savings:
     get:
       tags:
         - User Savings Account
       summary: Savings Account
       description: API to get Savings Account
       parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
           required: true
-          description: Numeric ID of the user to get
       produces:
         - application/json
       responses:
@@ -194,12 +188,6 @@ paths:
       summary: Savings transaction
       description: API to create any Savings transaction
       parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
-          required: true
-          description: Numeric ID of the user to get
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -221,7 +209,7 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
-  /user/{userId}/savings/{transactionId}:
+  account/savings/{transactionId}:
     get:
       tags:
         - User Savings transaction
@@ -234,6 +222,10 @@ paths:
             type: integer
           required: true
           description: Numeric ID of the transaction to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
       produces:
         - application/json
       responses:
@@ -315,19 +307,17 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
-  /user/{userId}/card:
+  account/card:
     get:
       tags:
         - User Card Account
       summary: Card Account
       description: API to get Card Account
       parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
           required: true
-          description: Numeric ID of the user to get
       produces:
         - application/json
       responses:
@@ -347,12 +337,6 @@ paths:
       summary: Savings transaction
       description: API to create any Card transaction
       parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
-          required: true
-          description: Numeric ID of the user to get
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
@@ -374,7 +358,7 @@ paths:
           description: Invalid Fields
         "500":
           description: Internal Server Error
-  /user/{userId}/card/{transactionId}:
+  account/card/{transactionId}:
     get:
       tags:
         - User Card transaction
@@ -387,6 +371,10 @@ paths:
             type: integer
           required: true
           description: Numeric ID of the transaction to get
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
       produces:
         - application/json
       responses:
@@ -477,6 +465,8 @@ definitions:
   AccountResponse:
     type: object
     properties:
+      token:
+        type: string
       status:
         type: integer
       message:

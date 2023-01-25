@@ -83,21 +83,17 @@ email : "",
 password : "",
  })
 
-const [isRemembered, setIsRemembered] = useState(true)
 
-
-const handleRemember = () => {
-  if (isRemembered) {
-    setIsRemembered(false)
+const handleRemember = (e) => {
+  console.log(e)
+  console.log(e.target.checked)
+  if (e.target.checked) {
     console.log("box checked")
-    console.log(isRemembered)
-    dispatch(dontRememberUser(null))
+    dispatch(rememberUser())
     console.log(authUser)
   } else {
-    setIsRemembered(true)
     console.log("box unchecked")
-    console.log(isRemembered)
-    dispatch(rememberUser(null))
+    dispatch(dontRememberUser())
     console.log(authUser)
   }
 }
@@ -133,7 +129,7 @@ return (
         <StyledInput type="password" id="password" onChange={(e) => setUser({...user, password:e.target.value})} />
       </InputWrapper>
       <InputRemember>
-        <input type="checkbox" id="remember-me" onClick={() => {handleRemember()}} />
+        <input type="checkbox" id="remember-me" onChange={handleRemember} />
         <InputRememberLabel htmlFor="remember-me">Remember me
         </InputRememberLabel>
       </InputRemember>

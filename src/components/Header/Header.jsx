@@ -9,6 +9,7 @@ import colors from '../../utils/style/colors'
 
 
 
+
 const NavContainer = styled.nav`
 display: flex;
 justify-content: space-between;
