@@ -17,6 +17,7 @@ const initialState = {
     fetchError: "",
     remembered: false,
     userLoaded: false,
+    userChanged: false,
 }
 
 /**
@@ -86,12 +87,14 @@ const authSlice = createSlice({
         loadUser(state, action) {
             const token = state.token;
 
-            if (token) {
+            if (token && !state.userChanged) {
                 const user = jwtDecode(token);
                 return {
                     ...state,
                     token,
                     _id: user.id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
                     loginStatus: "fulfilled",
                     userLoaded: true,
                 };
@@ -111,6 +114,18 @@ const authSlice = createSlice({
                 remembered: false,
             }
         },
+        changeUser(state, action) {
+            if (action.payload) {
+                const user = action.payload
+                return {
+                    ...state,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    userChanged: true,
+                };
+            } else return state;
+        },
         // logoutUser is trigerred by clicking the link "Sign out" in Header.jsx
         logoutUser(state, action) {
             localStorage.removeItem("token")
@@ -128,6 +143,7 @@ const authSlice = createSlice({
                 fetchError: "",
                 remembered: false,
                 userLoaded: false,
+                userChanged: false,
             };
         },
     },
@@ -184,6 +200,6 @@ const authSlice = createSlice({
 // Here I import my two redurcers as actions from authslice, so I can dispatch them the way I want in
 // any component.
 
-export const { loadUser, logoutUser, rememberUser, dontRememberUser } = authSlice.actions;
+export const { loadUser, logoutUser, rememberUser, dontRememberUser, changeUser } = authSlice.actions;
 
 export default authSlice.reducer

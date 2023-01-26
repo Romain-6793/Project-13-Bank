@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { fetchUser } from "../../slices/authSlice"
 import { useEffect } from "react"
+import { Link } from 'react-router-dom'
 import styled from "styled-components"
 import colors from '../../utils/style/colors'
 
@@ -20,7 +21,7 @@ color: #fff;
 margin-bottom: 2rem;
 `
 
-const EditButton = styled.button`
+const EditButton = styled(Link)`
   border-color: ${colors.primary};
   background-color: ${colors.primary};
   color: #fff;
@@ -99,9 +100,11 @@ function User() {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if (authUser.fetchStatus !== "fulfilled") {
         dispatch(fetchUser(authUser))
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch])
+    }, [])
     
     
 
@@ -109,7 +112,7 @@ function User() {
         <Main>
             <Welcome>
             <h1>Welcome back<br />{authUser.firstName} {authUser.lastName}!</h1>
-            <EditButton>Edit Name</EditButton>
+            <EditButton to="/profile">Edit Name</EditButton>
             </Welcome>
             <Account>
                 <AccountContentWrapper>
