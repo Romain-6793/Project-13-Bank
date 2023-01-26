@@ -9,23 +9,12 @@ import { loadUser } from './slices/authSlice'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
+store.dispatch(loadUser(null))
 
-
-
-
-// function storageHandler() {
-//   localStorage.removeItem("token")
-// }
-
-// store.dispatch(loadUser(null))
-
-// "null" because it doesn't expect anything as a parameter. I think this is because it should work 
-// whether there's a token or not.
+// "null" because it doesn't expect anything as a parameter.
 
 root.render(
-  <React.StrictMode 
-  // onBeforeUnload={storageHandler()}
-  >
+  <React.StrictMode>
     <Router>
       <Provider store={store}> 
         <App></App>

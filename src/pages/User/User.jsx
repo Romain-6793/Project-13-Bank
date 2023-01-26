@@ -4,9 +4,6 @@ import { useEffect } from "react"
 import styled from "styled-components"
 import colors from '../../utils/style/colors'
 
-
-
-
 const Main = styled.main`
 flex: 1;
 background-color: ${colors.dark};

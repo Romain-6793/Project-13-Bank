@@ -80,11 +80,9 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        // Here come my two reducers(actions), the first one, "loadUser", checks if there is a token
-        //  then essentially retuns the token and the id, it is used to reload the data if the token is 
-        // still here. The second one, "logOutUser" is used to log out the user i-e to return the state 
-        // to the initial state, before the token was set.
-
+        // Here come my reducers that I will export as actions.
+        // The first one : loadUser, allows to keep my user in memory if there is a token.
+        // It is dispatched in index.jsx.
         loadUser(state, action) {
             const token = state.token;
 
@@ -100,6 +98,8 @@ const authSlice = createSlice({
                 };
             } else return { ...state, userLoaded: true };
         },
+        // rememberUser and dontRememberUser are triggered if the box "Remember me" is checked or not
+        // in SignIn.jsx
         rememberUser(state, action) {
             return {
                 ...state,
@@ -112,6 +112,7 @@ const authSlice = createSlice({
                 remembered: false,
             }
         },
+        // logoutUser is trigerred by clicking the link "Sign out" in Header.jsx
         logoutUser(state, action) {
             localStorage.removeItem("token")
 
@@ -131,25 +132,21 @@ const authSlice = createSlice({
             };
         },
     },
+    // extrareducers are all reducers that implies results of http requests
     extraReducers: (builder) => {
         builder.addCase(loginUser.pending, (state, action) => {
             return { ...state, loginStatus: "pending" };
         });
-        // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(loginUser.fulfilled, (state, action) => {
-            // Add user to the state object
+            // action.payload is my return value of loginUser i.e, my token
             if (action.payload) {
-                try {
-                    const user = jwtDecode(action.payload);
-                    return {
-                        ...state,
-                        token: action.payload,
-                        _id: user.id,
-                        loginStatus: "fulfilled",
-                    };
-                } catch (error) {
-                    return state
-                }
+                const user = jwtDecode(action.payload);
+                return {
+                    ...state,
+                    token: action.payload,
+                    _id: user.id,
+                    loginStatus: "fulfilled",
+                };
             } else return state;
         })
         builder.addCase(loginUser.rejected, (state, action) => {
@@ -162,11 +159,8 @@ const authSlice = createSlice({
         builder.addCase(fetchUser.pending, (state, action) => {
             return { ...state, fetchStatus: "pending" };
         });
-        // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(fetchUser.fulfilled, (state, action) => {
-            // Add user to the state object
             if (action.payload) {
-                // const user = jwtDecode(action.payload);
                 const user = action.payload
                 return {
                     ...state,

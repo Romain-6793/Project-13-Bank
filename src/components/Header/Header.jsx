@@ -48,6 +48,9 @@ color: ${colors.secondary}
  text-decoration: underline;
  color: ${colors.secondary};
 }
+@media (max-width: 767px) {
+  font-size: 15px;
+}
 `
 
 const UserStyledLink = styled(Link)`
@@ -58,10 +61,19 @@ font-size: 18px;
 color: ${colors.secondary}
 &:visited {
   color: ${colors.secondary};
- }
+}
+ &:focus {
+  color: ${colors.secondary};
+}
+&:active {
+  color: ${colors.secondary};
+}
 &:hover {
  text-decoration: underline;
  color: ${colors.secondary};
+}
+@media (max-width: 767px) {
+  font-size: 15px;
 }
 `
 const SignInLogo = styled.img`

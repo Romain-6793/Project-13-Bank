@@ -13,7 +13,6 @@ padding-top: 1px;
 display: block;
 height: 600px;
 `
-//I don't know why but I had to put a padding-top and a height... weird...
 
 const SignInContent = styled.section`
 box-sizing: border-box;
@@ -105,8 +104,8 @@ const handleSubmit = (e) => {
     dispatch(loginUser(user))
  }
 
-//This useEffect is separated from handleSubmit because it should run only when auth.loginStatus
-// changes and it should navigate only if the status is fulfilled. 
+//This useEffect is separated from handleSubmit because it should run only when auth._id
+// changes and it should navigate only if there is an id. 
 
 useEffect(() => {
   if (authUser._id) {
