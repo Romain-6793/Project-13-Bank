@@ -30,31 +30,31 @@ function App() {
     //     return ev.returnValue = 'Are you sure you want to close?';
     // });
 
-    useEffect(() => {
-        const onBeforeUnload = (ev) => {
+    // useEffect(() => {
+    //     const onBeforeUnload = (ev) => {
 
-            //#############     
-            console.log(authUser);
+    //         //#############     
+    //         console.log(authUser);
 
 
-            // if (!authUser.remembered) {
-            //     localStorage.removeItem("token");
-            // } else {
-            //     localStorage.setItem("token");
-            // }
+    //         if (!authUser.remembered) {
+    //             console.log("Le token ne sera pas conservé")
+    //         } else {
+    //             console.log("le token sera conservé")
+    //         }
 
-            //#############
+    //         //#############
 
-            ev.returnValue = "Anything you wanna put here!";
-            return "Anything here as well, doesn't matter!";
-        };
+    //         ev.returnValue = "Anything you wanna put here!";
+    //         return "Anything here as well, doesn't matter!";
+    //     };
 
-        window.addEventListener("beforeunload", onBeforeUnload);
+    //     window.addEventListener("beforeunload", onBeforeUnload);
 
-        return () => {
-            window.removeEventListener("beforeunload", onBeforeUnload);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener("beforeunload", onBeforeUnload);
+    //     };
+    // }, []);
 
     return (
 

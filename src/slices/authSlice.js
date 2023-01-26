@@ -38,7 +38,11 @@ export const loginUser = createAsyncThunk(
                 password: user.password,
             })
 
-            localStorage.setItem("token", res.data.body.token);
+            const remembered = thunkAPI.getState().auth.remembered
+
+            if (remembered) {
+                localStorage.setItem("token", res.data.body.token);
+            }
 
 
             return res.data.body.token;
@@ -110,7 +114,7 @@ const authSlice = createSlice({
             }
         },
         logoutUser(state, action) {
-            localStorage.removeItem("token");
+            localStorage.removeItem("token")
 
             return {
                 ...state,

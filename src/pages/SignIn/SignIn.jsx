@@ -60,6 +60,7 @@ padding: 8px;
 font-size: 1.1rem;
 font-weight: bold;
 margin-top: 1rem;
+cursor: pointer;
 border-color: ${colors.primary};
 background-color: ${colors.primary};
 color: #fff;

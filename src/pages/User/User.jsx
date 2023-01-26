@@ -1,9 +1,11 @@
-
-import styled from "styled-components"
-import colors from '../../utils/style/colors'
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { fetchUser } from "../../slices/authSlice"
 import { useEffect } from "react"
+import styled from "styled-components"
+import colors from '../../utils/style/colors'
+
+
+
 
 const Main = styled.main`
 flex: 1;

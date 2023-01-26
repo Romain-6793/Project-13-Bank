@@ -19,6 +19,9 @@ const StyledGlobalStyle = createGlobalStyle`
 
     a {
       text-decoration: none;
+      &: visited {
+        color : ${colors.secondary}
+      }
     }
 
 `

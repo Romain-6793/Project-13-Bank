@@ -8,8 +8,6 @@ import LogOut from '../../assets/log-out.svg'
 import colors from '../../utils/style/colors'
 
 
-
-
 const NavContainer = styled.nav`
 display: flex;
 justify-content: space-between;
@@ -33,26 +31,39 @@ display: flex;
 
 const StyledLink = styled(Link)`
 margin-right: 0.5rem;
-text-decoration: none;
+// text-decoration: none;
 font-weight: bold;
 font-size: 18px;
 color: ${colors.secondary}
+&:visited {
+  color: ${colors.secondary};
+}
+&:focus {
+  color: ${colors.secondary};
+}
+&:active {
+  color: ${colors.secondary};
+}
 &:hover {
  text-decoration: underline;
-}
-&:visited {
- color: ${colors.secondary}
+ color: ${colors.secondary};
 }
 `
 
-const StyledDiv = styled.div`
+const UserStyledLink = styled(Link)`
 margin-right: 1rem;
-text-decoration: none;
+// text-decoration: none;
 font-weight: bold;
 font-size: 18px;
 color: ${colors.secondary}
+&:visited {
+  color: ${colors.secondary};
+ }
+&:hover {
+ text-decoration: underline;
+ color: ${colors.secondary};
+}
 `
-
 const SignInLogo = styled.img`
  height: 16px;
  width: 16px;
@@ -75,10 +86,10 @@ function Header() {
    </Link>
    { authUser._id ?
     <HeaderFlex>
-     <StyledDiv>
+     <UserStyledLink to="/user">
       <SignInLogo src={UserCircle} />
       {authUser.firstName}
-     </StyledDiv>
+     </UserStyledLink>
      <StyledLink to="/" onClick={() => {
       dispatch(logoutUser(null)); console.log(authUser)
       }}>
