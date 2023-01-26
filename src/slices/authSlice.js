@@ -88,7 +88,6 @@ const authSlice = createSlice({
 
             if (token) {
                 const user = jwtDecode(token);
-                console.log(user)
                 return {
                     ...state,
                     token,

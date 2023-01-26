@@ -103,7 +103,7 @@ function Header() {
       {authUser.firstName}
      </UserStyledLink>
      <StyledLink to="/" onClick={() => {
-      dispatch(logoutUser(null)); console.log(authUser)
+      dispatch(logoutUser(null)); 
       }}>
      <SignInLogo src={LogOut} />
       Sign Out

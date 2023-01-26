@@ -85,16 +85,10 @@ password : "",
 
 
 const handleRemember = (e) => {
-  console.log(e)
-  console.log(e.target.checked)
   if (e.target.checked) {
-    console.log("box checked")
     dispatch(rememberUser())
-    console.log(authUser)
   } else {
-    console.log("box unchecked")
     dispatch(dontRememberUser())
-    console.log(authUser)
   }
 }
 
