@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //   localStorage.removeItem("token")
 // }
 
-store.dispatch(loadUser(null))
+// store.dispatch(loadUser(null))
 
 // "null" because it doesn't expect anything as a parameter. I think this is because it should work 
 // whether there's a token or not.

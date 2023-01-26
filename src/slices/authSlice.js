@@ -3,6 +3,7 @@ import axios from 'axios'
 import { url } from './api'
 import jwtDecode from 'jwt-decode'
 
+
 const initialState = {
     token: localStorage.getItem("token"),
     firstName: "",
@@ -75,9 +76,6 @@ export const fetchUser = createAsyncThunk(
     }
 )
 
-// export const setRemember = createAction('remember/set')
-// export const unsetRemember = createAction('remember/unset')
-
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -92,6 +90,7 @@ const authSlice = createSlice({
 
             if (token) {
                 const user = jwtDecode(token);
+                console.log(user)
                 return {
                     ...state,
                     token,
