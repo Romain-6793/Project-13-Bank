@@ -27,6 +27,19 @@ const EditButton = styled(Link)`
   color: #fff;
   font-weight: bold;
   padding: 10px;
+  &:visited {
+    color: #fff;
+  }
+   &:focus {
+    color: #fff;
+  }
+  &:active {
+    color: #fff;
+  }
+  &:hover {
+   text-decoration: underline;
+   color: #fff;
+  }
 `
 
 const Account = styled.section`

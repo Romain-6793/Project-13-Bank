@@ -3,7 +3,8 @@ import colors from '../../utils/style/colors'
 import UserCircle from '../../assets/user-circle.svg'
 import {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeUser } from '../../slices/authSlice'
+// import { changeUser } from '../../slices/authSlice'
+import { editUser } from '../../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 
 const Main = styled.main`
@@ -80,7 +81,7 @@ lastName : "",
 const handleSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    dispatch(changeUser(changedUser))
+    dispatch(editUser(changedUser))
     navigate("/user")
  }
 

@@ -15,6 +15,8 @@ const initialState = {
     loginError: "",
     fetchStatus: "",
     fetchError: "",
+    editStatus: "",
+    editError: "",
     remembered: false,
     userLoaded: false,
     userChanged: false,
@@ -76,6 +78,60 @@ export const fetchUser = createAsyncThunk(
         }
     }
 )
+
+export const editUser = createAsyncThunk(
+    "auth/editUser",
+    async (user, thunkAPI) => {
+        const token = localStorage.getItem("token")
+        const headers = {
+            'Authorization': token,
+            'Content-type': 'application/json'
+        }
+        try {
+            const res = await axios.put(`${url}/user/profile`, {
+                firstName: user.firstName,
+                lastName: user.lastName,
+            }, headers)
+
+            localStorage.setItem("token", res.data.body.token)
+            return res.data.body.token;
+
+        }
+        catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data)
+        }
+    }
+)
+
+// export const editUser = createAsyncThunk(
+//     "auth/editUser",
+//     async (user, thunkAPI) => {
+
+//         try {
+//             const res = await axios.put(`${url}/user/`, {
+//                 firstName: user.firstName,
+//                 lastName: user.lastName,
+//             })
+
+
+//             const selectedData = res.data.body.find((foundUser) => foundUser._id === user._id)
+//             console.log(selectedData)
+
+//             // const remembered = thunkAPI.getState().auth.remembered
+
+//             // if (remembered) {
+//             //     localStorage.setItem("token", res.data.body.token);
+//             // }
+
+
+//             // return res.data.body.token;
+
+//         }
+//         catch (err) {
+//             return thunkAPI.rejectWithValue(err.response.data)
+//         }
+//     }
+// )
 
 const authSlice = createSlice({
     name: "auth",
@@ -141,6 +197,8 @@ const authSlice = createSlice({
                 loginError: "",
                 fetchStatus: "",
                 fetchError: "",
+                editStatus: "",
+                editError: "",
                 remembered: false,
                 userLoaded: false,
                 userChanged: false,
@@ -191,6 +249,30 @@ const authSlice = createSlice({
                 ...state,
                 fetchStatus: "rejected",
                 fetchError: action.payload,
+            };
+        });
+        builder.addCase(editUser.pending, (state, action) => {
+            return { ...state, editStatus: "pending" };
+        });
+        builder.addCase(editUser.fulfilled, (state, action) => {
+            if (action.payload) {
+                const user = action.payload
+                return {
+                    ...state,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    userChanged: true,
+                    editStatus: "fulfilled",
+                };
+            } else return state;
+        })
+        builder.addCase(editUser.rejected, (state, action) => {
+            return {
+                ...state,
+                userChanged: false,
+                editStatus: "rejected",
+                editError: action.payload,
             };
         });
     },
