@@ -45,7 +45,7 @@ const InputWrapperLabel = styled.label`
 font-weight: bold;
 `
 
-const SignInButton = styled.button`
+const EditButton = styled.button`
 display: block;
 width: 100%;
 padding: 8px;
@@ -106,7 +106,7 @@ return (
         <InputWrapperLabel htmlFor="lastName">Last name</InputWrapperLabel>
         <StyledInput type="text" id="lastName" onChange={(e) => setChangedUser({...changedUser, lastName:e.target.value})} />
       </InputWrapper>
-      <SignInButton to="/user" type="submit">Edit</SignInButton>
+      <EditButton to="/user" type="submit">Edit</EditButton>
     </form>
   </EditContent>
 </Main>
