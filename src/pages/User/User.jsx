@@ -59,6 +59,7 @@ margin-bottom: 2rem;
     flex-direction: row;
 }
 `
+
 const AccountContentWrapper = styled.div`
 width: 100%;
 flex: 1;
@@ -71,11 +72,13 @@ const AccountTitle = styled.h3`
   font-size: 1rem;
   font-weight: normal;
 `
+
 const AccountAmount = styled.p`
   margin: 0;
   font-size: 2.5rem;
   font-weight: bold;
 `
+
 const AccountAmountDesc = styled.p`
 margin: 0;
 `
@@ -91,6 +94,7 @@ flex: 1;
     bottom: 10px;
 }
 `
+
 const TransactionButton = styled.button`
 display: block;
 width: 100%;
@@ -113,18 +117,14 @@ function User() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (authUser.fetchStatus !== "fulfilled") {
         dispatch(fetchUser(authUser))
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
-    
-
     return (
         <Main>
             <Welcome>
-            <h1>Welcome back<br />{authUser.firstName} {authUser.lastName}!</h1>
+            <h1>Welcome back<br />{authUser.firstName} {authUser.lastName} !</h1>
             <EditButton to="/profile">Edit Name</EditButton>
             </Welcome>
             <Account>

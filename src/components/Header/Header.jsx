@@ -1,12 +1,12 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { logoutUser } from '../../slices/authSlice'
+import { fetchUser, logoutUser } from '../../slices/authSlice'
 import styled from 'styled-components'
 import ArgentBankLogo from '../../assets/argentBankLogo.png'
 import UserCircle from '../../assets/user-circle.svg'
 import LogOut from '../../assets/log-out.svg'
 import colors from '../../utils/style/colors'
-
 
 const NavContainer = styled.nav`
 display: flex;
@@ -76,18 +76,26 @@ color: ${colors.secondary}
   font-size: 15px;
 }
 `
+
 const SignInLogo = styled.img`
  height: 16px;
  width: 16px;
  margin-right: 5px;
 `
 
-
 function Header() {
 
  const authUser = useSelector((state) => state.auth);
+ const token = localStorage.getItem("token")
 
  const dispatch = useDispatch();
+
+ useEffect(() => {
+  if (token) {
+    dispatch(fetchUser(authUser))
+  }
+ // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, [])
 
  return (
   <NavContainer>

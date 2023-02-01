@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 import colors from '../../utils/style/colors'
 import UserCircle from '../../assets/user-circle.svg'
-import {useState, useEffect} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-// import { changeUser } from '../../slices/authSlice'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { editUser } from '../../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 
@@ -24,7 +23,7 @@ box-sizing: border-box;
  padding: 2rem;
 `
 
-const SignInLogo = styled.img`
+const UserLogo = styled.img`
  height: 16px;
  width: 16px;
 `
@@ -59,14 +58,12 @@ color: #fff;
 text-decoration: underline;
 `
 
-const SignInError = styled.p`
+const EditError = styled.p`
 font-weight: bold;
 color: ${colors.secondary};
 `
 
 function Profile() {
-
-const authUser = useSelector((state) => state.auth);
 
 const dispatch = useDispatch()
 let navigate = useNavigate()
@@ -76,26 +73,20 @@ firstName : "",
 lastName : "",
  })
 
-
-
 const handleSubmit = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    dispatch(editUser(changedUser))
+    if (changedUser.firstName !== "" && changedUser.lastName !== "") {
+    dispatch(editUser(changedUser)) // -> reducer
     navigate("/user")
+  }
  }
 
-//This useEffect is separated from handleSubmit because it should run only when auth._id
-// changes and it should navigate only if there is an id. 
-
-
-
-console.log("changed user", changedUser)
 
 return (
 <Main>
   <EditContent>
-    <SignInLogo src={UserCircle} />
+    <UserLogo src={UserCircle} />
     <h1>Edit your name</h1>
     <form onSubmit={handleSubmit}>
       <InputWrapper>
@@ -106,11 +97,11 @@ return (
         <InputWrapperLabel htmlFor="lastName">Last name</InputWrapperLabel>
         <StyledInput type="text" id="lastName" onChange={(e) => setChangedUser({...changedUser, lastName:e.target.value})} />
       </InputWrapper>
-      <EditButton to="/user" type="submit">Edit</EditButton>
+      <EditButton type="submit">Edit</EditButton>
+      {changedUser.firstName === "" || changedUser.lastName ==="" ? <EditError>Please fill in all fields</EditError> : null }
     </form>
   </EditContent>
 </Main>
-
 )
 }
 

@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode'
 
 
 const initialState = {
-    token: localStorage.getItem("token"),
+    token: "",
     firstName: "",
     lastName: "",
     password: "",
@@ -30,8 +30,6 @@ const initialState = {
  * @returns token.data i.e all the new values posted, token.data is added to our action.payload
  */
 
-
-
 export const loginUser = createAsyncThunk(
     "auth/loginUser",
     async (user, thunkAPI) => {
@@ -47,7 +45,6 @@ export const loginUser = createAsyncThunk(
             if (remembered) {
                 localStorage.setItem("token", res.data.body.token);
             }
-
 
             return res.data.body.token;
 
@@ -82,56 +79,28 @@ export const fetchUser = createAsyncThunk(
 export const editUser = createAsyncThunk(
     "auth/editUser",
     async (user, thunkAPI) => {
-        const token = localStorage.getItem("token")
+        const token = thunkAPI.getState().auth.token
         const headers = {
-            'Authorization': token,
+            'Authorization': `Bearer ${token}`,
             'Content-type': 'application/json'
         }
         try {
-            const res = await axios.put(`${url}/user/profile`, {
-                firstName: user.firstName,
-                lastName: user.lastName,
-            }, headers)
-
-            localStorage.setItem("token", res.data.body.token)
-            return res.data.body.token;
-
+            const res = await axios({
+                method: 'put',
+                url: `${url}/user/profile`,
+                data: {
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                },
+                headers
+            })
+            return res.data.body;
         }
         catch (err) {
             return thunkAPI.rejectWithValue(err.response.data)
         }
     }
 )
-
-// export const editUser = createAsyncThunk(
-//     "auth/editUser",
-//     async (user, thunkAPI) => {
-
-//         try {
-//             const res = await axios.put(`${url}/user/`, {
-//                 firstName: user.firstName,
-//                 lastName: user.lastName,
-//             })
-
-
-//             const selectedData = res.data.body.find((foundUser) => foundUser._id === user._id)
-//             console.log(selectedData)
-
-//             // const remembered = thunkAPI.getState().auth.remembered
-
-//             // if (remembered) {
-//             //     localStorage.setItem("token", res.data.body.token);
-//             // }
-
-
-//             // return res.data.body.token;
-
-//         }
-//         catch (err) {
-//             return thunkAPI.rejectWithValue(err.response.data)
-//         }
-//     }
-// )
 
 const authSlice = createSlice({
     name: "auth",
@@ -141,9 +110,9 @@ const authSlice = createSlice({
         // The first one : loadUser, allows to keep my user in memory if there is a token.
         // It is dispatched in index.jsx.
         loadUser(state, action) {
-            const token = state.token;
+            const token = localStorage.getItem("token")
 
-            if (token && !state.userChanged) {
+            if (token) {
                 const user = jwtDecode(token);
                 return {
                     ...state,

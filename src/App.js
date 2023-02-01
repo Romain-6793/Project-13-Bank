@@ -9,8 +9,6 @@ import Profile from './pages/Profile/Profile'
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 
-
-
 function App() {
 
     const authUser = useSelector((state) => state.auth);
@@ -25,7 +23,10 @@ function App() {
                     <Route path="/user" element={<User />} />
                     : <Route path="/user" element={<Error />} />
                 }
-                <Route path="/profile" element={<Profile />} />
+                {authUser._id ?
+                    <Route path="/profile" element={<Profile />} />
+                    : <Route path="/profile" element={<Error />} />
+                }
                 <Route path="/signIn" element={<SignIn />} />
                 <Route path="*" element={<Error />} />
             </Routes>

@@ -127,7 +127,7 @@ return (
         <InputRememberLabel htmlFor="remember-me">Remember me
         </InputRememberLabel>
       </InputRemember>
-      <SignInButton to="/user" type="submit">Sign in</SignInButton>
+      <SignInButton type="submit">Sign in</SignInButton>
       {authUser.loginStatus === "rejected" ? <SignInError>{authUser.loginError.message}</SignInError> : null}
     </form>
   </SignInContent>
