@@ -81,7 +81,7 @@ let navigate = useNavigate()
 const [user, setUser] = useState({
 email : "",
 password : "",
- })
+})
 
 
 const handleRemember = (e) => {
