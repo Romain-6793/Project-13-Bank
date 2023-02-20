@@ -48,14 +48,14 @@ paths:
           description: Create any Checking transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction created successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -83,7 +83,7 @@ paths:
         "200":
           description: Access to transaction granted
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: No transaction found
         "500":
@@ -111,14 +111,14 @@ paths:
           description: Update any Checking transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction updated successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -146,14 +146,14 @@ paths:
           description: Delete any Checking transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction deleted successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -197,14 +197,14 @@ paths:
           description: Create any Savings transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction created successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -232,7 +232,7 @@ paths:
         "200":
           description: Access to transaction granted
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: No transaction found
         "500":
@@ -260,14 +260,14 @@ paths:
           description: Update any Savings transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction updated successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -295,14 +295,14 @@ paths:
           description: Delete any Savings transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction deleted successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -346,14 +346,14 @@ paths:
           description: Create any Card transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction created successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -381,7 +381,7 @@ paths:
         "200":
           description: Access to transaction granted
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: No transaction found
         "500":
@@ -409,14 +409,14 @@ paths:
           description: Update any Card transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction updated successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -444,14 +444,14 @@ paths:
           description: Delete any Card transaction
           required: true
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
       produces:
         - application/json
       responses:
         "200":
           description: Transaction deleted successully
           schema:
-            $ref: "#/definitions/TransactionResponse"
+            $ref: "#/definitions/Transaction"
         "400":
           description: Invalid Fields
         "500":
@@ -473,15 +473,14 @@ definitions:
         type: string
       body:
         type: object
- TransactionResponse:
-    type: object
-    properties:
-      token:
+ Transaction:
+ properties:
+      id:
         type: string
-        status:
-        type: integer
-      message:
+        description: transaction id
+      amount:
+        type: number
+        description: transaction amount
+      description:
         type: string
-      body:
-        type: object
-  
+        description: transaction description
